@@ -8,7 +8,7 @@ public class Camera {
 		JFrame frame = new JFrame();
 		JSlider yesNo = new JSlider(0,15);
 		frame.add(yesNo);
-
+		frame.setVisible(true);
 	}
 
 }
