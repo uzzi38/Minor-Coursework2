@@ -9,14 +9,15 @@ public class Camera {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(800, 300);
 		
-		JSlider yesNo = new JSlider(0,15);
-		yesNo.setMajorTickSpacing(1);
-		yesNo.setPaintTicks(true);
-		yesNo.setSnapToTicks(true);
-		yesNo.setPaintLabels(true);
+		JSlider slider = new JSlider(0,15);
+		slider.setMajorTickSpacing(1);
+		slider.setPaintTicks(true);
+		slider.setSnapToTicks(true);
+		slider.setPaintLabels(true);
+		slider.setValue(0);
 		
 		
-		frame.add(yesNo);
+		frame.add(slider);
 		frame.setVisible(true);
 	}
 
