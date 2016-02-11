@@ -52,9 +52,6 @@ public class HexConv {
         	if(in.equals(symbol)){
         		return hex;
         	}
-        	else{
-        		return "?";
-        	}
         }
         return "?";
     }
