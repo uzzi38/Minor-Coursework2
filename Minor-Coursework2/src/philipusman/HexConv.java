@@ -14,7 +14,7 @@ public class HexConv {
 
     public ArrayList<String> hexConvert(String in) throws FileNotFoundException{
         ArrayList<String> out = new ArrayList<String>();
-        Scanner scnr = new Scanner (new File("ascii_table.csv"));
+        Scanner scnr = new Scanner (in);
         String current = scnr.next();
         for (int i = 0; i < current.length(); i++){
             //String split into individual characters
