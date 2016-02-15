@@ -40,8 +40,13 @@ public class Communication implements ActionListener{
         send.addActionListener(this);
     }
 
-    public void actionPerformed (ActionEvent e) throws FileNotFoundException, InterruptedException{
-        c.sendMessage(send.getText());
+    public void actionPerformed (ActionEvent e){
+        try {
+			c.sendMessage(send.getText());
+		} catch (FileNotFoundException | InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
     }
 
 }
