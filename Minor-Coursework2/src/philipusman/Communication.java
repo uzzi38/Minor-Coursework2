@@ -32,9 +32,8 @@ public class Communication implements ActionListener{
 		
 		JTextArea message = new JTextArea();
 		frame.add(message, BorderLayout.CENTER);
-		
+		c.sendMessage("hello");
 		frame.setVisible(true);
-		c.sendMessage("Hello");
 	}
 
     public Communication(){

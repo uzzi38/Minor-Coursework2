@@ -13,7 +13,8 @@ import javax.swing.JSlider;
 
 public class Camera {
 	private JSlider slider;
-	private HashMap<Character, Integer> map;
+	private HashMap<Character, Integer> map = new HashMap<>();
+
 	private ArrayList<String> chars; //Holds the value of the string in hex
 	private ArrayList<Character> input = new ArrayList<Character>(); //The string that will be entered split up
 	/**
@@ -21,7 +22,6 @@ public class Camera {
 	 */
 	public Camera () {
 		Hashtable<Integer, JLabel> labels = new Hashtable<>();
-		map = new HashMap<>();
 		for (int i = 0; i < 10; i++){
 			JLabel label = new JLabel(Integer.toString(i));
 			labels.put(i, label);
@@ -60,15 +60,16 @@ public class Camera {
 	 * @return
 	 * @throws FileNotFoundException
 	 */
-	private ArrayList<String> hexConvert(String in) throws FileNotFoundException{
+	private ArrayList<String> hexConvert(String str) throws FileNotFoundException{
         ArrayList<String> out = new ArrayList<String>();
-        in.toUpperCase();
-        for (int i = 0; i < in.length(); i++){
+        System.out.println(str);
+        for (int i = 0; i < str.length(); i++){
             //String split into individual characters
-            input.add(in.charAt(i));
+        	input.add(str.charAt(i));
         }
         for (int i = 0; i< input.size(); i++){
-        	out.add(csvScanner(input.get(i)));
+        	String scanned = csvScanner(input.get(i));
+        	out.add(scanned);
         }
         //Iterate input and correlate to characters in charLookup
         return out;
@@ -81,16 +82,21 @@ public class Camera {
 	 */
 	private String csvScanner(Character in) throws FileNotFoundException{
     	Scanner tableScanner = new Scanner (new File("ascii_table.csv"));
-        tableScanner.useDelimiter(",");
-        while(tableScanner.hasNextLine()){
-        	String dec = tableScanner.next();
-        	String oct = tableScanner.next();
-        	String hex = tableScanner.next();
-        	String bin = tableScanner.next();
-        	String symbol = tableScanner.next();
-        	tableScanner.nextLine();
+        tableScanner.useDelimiter(new String(","));
+        String dec,oct,hex,bin,symbol,htmlName,htmlNumber;
+        while(tableScanner.hasNext()){
+        	dec = tableScanner.next().toString();
+        	oct = tableScanner.next().toString();
+        	hex = tableScanner.next().toString();
+        	bin = tableScanner.next().toString();
+        	symbol = tableScanner.next().toString();
+        	htmlName = tableScanner.next().toString();
+        	htmlNumber = tableScanner.next().toString();
+        	if(tableScanner.hasNextLine()){
+        		tableScanner.nextLine();
+        	}
+        	System.out.println(in.equals(symbol));
         	if(in.equals(symbol)){
-                tableScanner.close();
         		return hex;
         	}
         }
@@ -101,9 +107,10 @@ public class Camera {
 		chars = hexConvert(in);
 		for (int i = 0; i < chars.size(); i++){
 			String s = chars.get(i);
-			for (int j = 0; j < 2; j++){
+			for (int j = 0; j < 3; j++){
+				System.out.println(s.charAt(j) + "3");
 				Character c = new Character(s.charAt(j));
-				slider.setValue(map.get(c));
+				slider.setValue(map.get(c).intValue());
 				Thread.sleep(500);
 			}
 		}
