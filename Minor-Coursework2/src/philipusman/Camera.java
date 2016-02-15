@@ -53,7 +53,7 @@ public class Camera {
 	public JSlider returnSlider(){
 		return slider;
 	}
-	public void setPosition(String in) throws FileNotFoundException, InterruptedException{
+	public void sendMessage(String in) throws FileNotFoundException, InterruptedException{
 		chars = hexConvert(in);
 		for (int i = 0; i < chars.size(); i++){
 			String s = chars.get(i);
