@@ -93,14 +93,14 @@ public class Camera {
     	Scanner tableScanner = new Scanner (new File("ascii_table.csv"));
         tableScanner.useDelimiter(",");
         while(tableScanner.hasNextLine()){
-        	Scanner lineScanner = new Scanner(tableScanner.nextLine());
-        	lineScanner.next();
-        	lineScanner.next();
-        	String hex = lineScanner.next();
-        	lineScanner.next();
-        	String symbol = lineScanner.next();
-        	lineScanner.close();
+        	tableScanner.nextLine();
+        	tableScanner.next();
+        	tableScanner.next();
+        	String hex = tableScanner.next();
+        	tableScanner.next();
+        	String symbol = tableScanner.next();
         	if(in.equals(symbol)){
+                tableScanner.close();
         		return hex;
         	}
         }

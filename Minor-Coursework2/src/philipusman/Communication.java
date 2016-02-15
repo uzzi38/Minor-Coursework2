@@ -16,7 +16,7 @@ public class Communication implements ActionListener{
     private static JButton send;
     private static Camera c;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException, InterruptedException {
 		JFrame frame = new JFrame();
 		frame.setLayout(new BorderLayout());
 		frame.setSize(800, 800);
@@ -34,6 +34,7 @@ public class Communication implements ActionListener{
 		frame.add(message, BorderLayout.CENTER);
 		
 		frame.setVisible(true);
+		c.sendMessage("Hello");
 	}
 
     public Communication(){
