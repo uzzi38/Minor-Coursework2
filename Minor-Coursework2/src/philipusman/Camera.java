@@ -53,17 +53,7 @@ public class Camera {
 	public JSlider returnSlider(){
 		return slider;
 	}
-	public void sendMessage(String in) throws FileNotFoundException, InterruptedException{
-		chars = hexConvert(in);
-		for (int i = 0; i < chars.size(); i++){
-			String s = chars.get(i);
-			for (int j = 0; j < 2; j++){
-				Character c = new Character(s.charAt(j));
-				slider.setValue(map.get(c));
-				Thread.sleep(500);
-			}
-		}
-	}
+	
 	/**
 	 * 
 	 * @param in
@@ -93,12 +83,12 @@ public class Camera {
     	Scanner tableScanner = new Scanner (new File("ascii_table.csv"));
         tableScanner.useDelimiter(",");
         while(tableScanner.hasNextLine()){
-        	tableScanner.nextLine();
-        	tableScanner.next();
-        	tableScanner.next();
+        	String dec = tableScanner.next();
+        	String oct = tableScanner.next();
         	String hex = tableScanner.next();
-        	tableScanner.next();
+        	String bin = tableScanner.next();
         	String symbol = tableScanner.next();
+        	tableScanner.nextLine();
         	if(in.equals(symbol)){
                 tableScanner.close();
         		return hex;
@@ -107,4 +97,15 @@ public class Camera {
         tableScanner.close();
         return "?";
     }
+	public void sendMessage(String in) throws FileNotFoundException, InterruptedException{
+		chars = hexConvert(in);
+		for (int i = 0; i < chars.size(); i++){
+			String s = chars.get(i);
+			for (int j = 0; j < 2; j++){
+				Character c = new Character(s.charAt(j));
+				slider.setValue(map.get(c));
+				Thread.sleep(500);
+			}
+		}
+	}
 }
