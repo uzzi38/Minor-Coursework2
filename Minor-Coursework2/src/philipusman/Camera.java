@@ -14,7 +14,8 @@ import javax.swing.JSlider;
 public class Camera {
 	private JSlider slider;
 	private HashMap<Character, Integer> map = new HashMap<>();
-
+	private final File asciiTable = new File("ascii_table.csv");
+	private HashMap<String, String> symbolToHex = new HashMap<>();
 	private ArrayList<String> chars; //Holds the value of the string in hex
 	private ArrayList<Character> input = new ArrayList<Character>(); //The string that will be entered split up
 	/**
@@ -61,15 +62,16 @@ public class Camera {
 	 * @throws FileNotFoundException
 	 */
 	private ArrayList<String> hexConvert(String str) throws FileNotFoundException{
-        ArrayList<String> out = new ArrayList<String>();
-        System.out.println(str);
+        csvScanner();
+		ArrayList<String> out = new ArrayList<String>();
         for (int i = 0; i < str.length(); i++){
             //String split into individual characters
         	input.add(str.charAt(i));
         }
         for (int i = 0; i< input.size(); i++){
-        	String scanned = csvScanner(input.get(i));
+        	String scanned = symbolToHex.get(input.get(i).toString());
         	out.add(scanned);
+        	System.out.println(symbolToHex.get("r"));
         }
         //Iterate input and correlate to characters in charLookup
         return out;
@@ -80,35 +82,34 @@ public class Camera {
 	 * @return
 	 * @throws FileNotFoundException
 	 */
-	private String csvScanner(Character in) throws FileNotFoundException{
-    	Scanner tableScanner = new Scanner (new File("ascii_table.csv"));
-        tableScanner.useDelimiter(new String(","));
-        String dec,oct,hex,bin,symbol,htmlName,htmlNumber;
-        while(tableScanner.hasNext()){
-        	dec = tableScanner.next().toString();
-        	oct = tableScanner.next().toString();
-        	hex = tableScanner.next().toString();
-        	bin = tableScanner.next().toString();
-        	symbol = tableScanner.next().toString();
-        	htmlName = tableScanner.next().toString();
-        	htmlNumber = tableScanner.next().toString();
-        	if(tableScanner.hasNextLine()){
-        		tableScanner.nextLine();
+	private void csvScanner() throws FileNotFoundException{
+        Scanner tableScanner = new Scanner(asciiTable);
+		tableScanner.useDelimiter(",");
+		int i = 0;
+        while (tableScanner.hasNext()){
+        	String hex = null,symbol = null;
+        	if(tableScanner.hasNext()){tableScanner.next();} 
+        	if(tableScanner.hasNext() && i != 0){tableScanner.next(); i++;} 
+        	if(tableScanner.hasNext()){tableScanner.next();} 
+        	if(tableScanner.hasNext()){hex = tableScanner.next(); System.out.println(hex);} 
+        	if(tableScanner.hasNext()){tableScanner.next();} 
+        	if(tableScanner.hasNext()){symbol = tableScanner.next();}
+        	if(tableScanner.hasNext()){tableScanner.next();} 
+        	if(tableScanner.hasNext() && i != 0){tableScanner.next(); i++;} 
+        	if(symbol != null && hex != null){
+        		symbolToHex.put(hex, symbol);
         	}
-        	System.out.println(in.equals(symbol));
-        	if(in.equals(symbol)){
-        		return hex;
-        	}
+        	
         }
         tableScanner.close();
-        return "?";
     }
+	
 	public void sendMessage(String in) throws FileNotFoundException, InterruptedException{
 		chars = hexConvert(in);
 		for (int i = 0; i < chars.size(); i++){
 			String s = chars.get(i);
 			for (int j = 0; j < 3; j++){
-				System.out.println(s.charAt(j) + "3");
+
 				Character c = new Character(s.charAt(j));
 				slider.setValue(map.get(c).intValue());
 				Thread.sleep(500);
