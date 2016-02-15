@@ -1,13 +1,20 @@
 package philipusman;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.io.InterruptedIOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JSlider;
 import javax.swing.JTextArea;
 
-public class Communication {
+public class Communication implements ActionListener{
+
+    private static JButton send;
+    private static Camera c;
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
@@ -16,11 +23,11 @@ public class Communication {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		
-		Camera c = new Camera();
+		c = new Camera();
 		JSlider slider = c.returnSlider();
 		frame.add(slider, BorderLayout.NORTH);
 		
-		JButton send = new JButton("Send");
+		send = new JButton("Send");
 		frame.add(send, BorderLayout.SOUTH);
 		
 		JTextArea message = new JTextArea();
@@ -28,5 +35,13 @@ public class Communication {
 		
 		frame.setVisible(true);
 	}
+
+    public Communication(){
+        send.addActionListener(this);
+    }
+
+    public void actionPerformed (ActionEvent e) throws FileNotFoundException, InterruptedException{
+        c.sendMessage(send.getText());
+    }
 
 }
