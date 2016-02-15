@@ -100,7 +100,6 @@ public class Camera {
         	lineScanner.next();
         	String symbol = lineScanner.next();
         	lineScanner.close();
-        	tableScanner.close();
         	if(in.equals(symbol)){
         		return hex;
         	}
