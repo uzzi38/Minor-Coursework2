@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,7 +16,7 @@ public class Communication implements ActionListener{
     private static JButton send;
     private static Camera c;
 
-	public static void main(String[] args) throws FileNotFoundException, InterruptedException {
+	public static void main(String[] args) throws InterruptedException, IOException {
 
         //New interface created of size 800x800, with program to stop when window is closed
         JFrame frame = new JFrame();
@@ -52,6 +53,9 @@ public class Communication implements ActionListener{
         try {
 			c.sendMessage(send.getText());
 		} catch (FileNotFoundException | InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}

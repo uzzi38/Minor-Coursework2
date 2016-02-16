@@ -1,7 +1,10 @@
 package philipusman;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -67,10 +70,10 @@ public class Camera {
 	 * Hex Converter
 	 * @param in
 	 * @return Returns the Array
-	 * @throws FileNotFoundException If the file is not present, it throws this exception.
+	 * @throws IOException 
 	 */
-	private ArrayList<String> hexConvert(String str) throws FileNotFoundException{
-        csvScanner();
+	private ArrayList<String> hexConvert(String str) throws IOException{
+        csvScanner2();
 		ArrayList<String> out = new ArrayList<>();
         for (int i = 0; i < str.length(); i++){
             //String split into individual characters
@@ -110,15 +113,27 @@ public class Camera {
         }
         tableScanner.close();
     }
+	private void csvScanner2 () throws IOException, FileNotFoundException{
+		BufferedReader csvScanner = new BufferedReader(new FileReader(asciiTable));
+		String line;
+		final String DELIMTER = ",";
+		while ((line = csvScanner.readLine()) != null){		//while there is a next line. At the same time, reads the next line
+			String[] tokens = line.split(DELIMTER);
+			String hex = tokens[2];
+			String symbol = tokens[4];
+			symbolToHex.put(hex, symbol);
+		}
+		csvScanner.close();
+	}
 
 	/**
 	 *
 	 * @param in
-	 * @throws FileNotFoundException If the file is not present, it throws this exception
 	 * @throws InterruptedException Stops the program for 500 ms, 'Thread.sleep(500)'
+	 * @throws IOException 
      */
 	
-	public void sendMessage(String in) throws FileNotFoundException, InterruptedException{
+	public void sendMessage(String in) throws InterruptedException, IOException{
 		chars = hexConvert(in);
 		for (int i = 0; i < chars.size(); i++){
 			String s = chars.get(i);
