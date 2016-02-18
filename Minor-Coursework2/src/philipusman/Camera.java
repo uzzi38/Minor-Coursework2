@@ -72,7 +72,6 @@ public class Camera {
 	
 	/**
 	 * Hex Converter
-	 * @param in
 	 * @return Returns the Array
 	 * @throws IOException 
 	 */
@@ -93,7 +92,6 @@ public class Camera {
     }
 	/**
 	 * Scans the ASCII Table csv file
-	 * @param in
 	 * @throws FileNotFoundException If the file is not present, it throws this exception.
 	 */
 	private void csvScanner() throws FileNotFoundException{
