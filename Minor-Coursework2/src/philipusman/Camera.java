@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 
 import javax.swing.JLabel;
 import javax.swing.JSlider;
@@ -21,11 +22,14 @@ public class Camera {
     //Import of ASCII csv file
 	private final File asciiTable = new File("ascii_table.csv");
     //New HashMap created
-	private HashMap<String, String> symbolToHex = new HashMap<>();
+	private String[] hex = new String[256];
+	private String[] symbol = new String[257];
     //Holds value of string in hex
 	private ArrayList<String> chars;
     //The String that will be entered split up
 	private ArrayList<Character> input = new ArrayList<Character>();
+	private String[] asciiHex = new String[256];
+
 
 	public Camera () {
 
@@ -74,18 +78,18 @@ public class Camera {
 	 */
 	private ArrayList<String> hexConvert(String str) throws IOException{
         csvScanner2();
-		ArrayList<String> out = new ArrayList<>();
-        for (int i = 0; i < str.length(); i++){
+		//ArrayList<String> out = new ArrayList<>();
+        //for (int i = 0; i < str.length(); i++){
             //String split into individual characters
-        	input.add(str.charAt(i));
-        }
-        for (int i = 0; i< input.size(); i++){
-        	String scanned = symbolToHex.get(input.get(i).toString());
-        	out.add(scanned);
-        	System.out.println(symbolToHex.get("r"));
-        }
+        //	input.add(str.charAt(i));
+       // }
+        //for (int i = 0; i< input.size(); i++){
+        //	String scanned = symbolToHex.get(input.get(i).toString());
+        //	out.add(scanned);
+        //	System.out.println(symbolToHex.get("r"));
+        //}
         //Iterate input and correlate to characters in charLookup
-        return out;
+        return new ArrayList<String>();
     }
 	/**
 	 * Scans the ASCII Table csv file
@@ -107,7 +111,7 @@ public class Camera {
         	if(tableScanner.hasNext()){tableScanner.next();} 
         	if(tableScanner.hasNext() && i != 0){tableScanner.next(); i++;} 
         	if(symbol != null && hex != null){
-        		symbolToHex.put(hex, symbol);
+        		//symbolToHex.put(hex, symbol);
         	}
         	
         }
@@ -116,16 +120,22 @@ public class Camera {
 	private void csvScanner2 () throws IOException, FileNotFoundException{
 		BufferedReader csvScanner = new BufferedReader(new FileReader(asciiTable));
 		String line;
+		int i = 0;
 		final String DELIMTER = ",";
+		csvScanner.readLine();
 		while ((line = csvScanner.readLine()) != null){		//while there is a next line. At the same time, reads the next line
 			String[] tokens = line.split(DELIMTER);
-			String hex = tokens[2];
-			String symbol = tokens[4];
-			symbolToHex.put(hex, symbol);
+			hex[i] = tokens[2];
+			symbol[i] = tokens[4];
+			System.out.println(tokens[2]);
+			System.out.println(hex[i]);
+			System.out.println(symbol[i]);
+			i++;
 		}
+		
 		csvScanner.close();
 	}
-
+	
 	/**
 	 *
 	 * @param in
