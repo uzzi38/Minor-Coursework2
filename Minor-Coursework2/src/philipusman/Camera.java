@@ -125,9 +125,6 @@ public class Camera {
 			String[] tokens = line.split(DELIMTER);
 			hex[i] = tokens[2];
 			symbol[i] = tokens[4];
-			System.out.println(tokens[2]);
-			System.out.println(hex[i]);
-			System.out.println(symbol[i]);
 			i++;
 		}
 		
