@@ -28,7 +28,7 @@ public class Communication extends JFrame{
     	setLayout(new BorderLayout());
 		setSize(800, 800);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+		Communication co = this;
 		//New slider created and placed on north of border
 		JSlider slider = c.returnSlider();
 		add(slider, BorderLayout.NORTH);
@@ -47,6 +47,7 @@ public class Communication extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				HashMap<Character,Integer> map= c.returnMap();
 				ArrayList<String> out = new ArrayList<>();
+				co.setTitle("Sending");
 				try {
 					out = c.hexConvert(message.getText());
 				} catch (IOException e1) {
@@ -65,6 +66,7 @@ public class Communication extends JFrame{
 						}
 					}
 				}
+				co.setTitle("Communication");
 			}
 		});
     }

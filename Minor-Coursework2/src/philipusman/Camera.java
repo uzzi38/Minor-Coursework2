@@ -24,7 +24,7 @@ public class Camera {
     //Holds value of string in hex
 	private ArrayList<String> chars;
     //The String that will be entered split up
-	private ArrayList<Character> input = new ArrayList<Character>();
+	private ArrayList<Character> input = new ArrayList<>();
 	private String[] asciiHex = new String[256];
 	private ArrayList<String> out = new ArrayList<>();
 
