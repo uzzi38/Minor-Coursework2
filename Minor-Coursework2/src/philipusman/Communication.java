@@ -15,11 +15,11 @@ public class Communication implements ActionListener{
 
     private static JButton send;
     private static Camera c;
-
+    private static JFrame frame;
 	public static void main(String[] args) throws InterruptedException, IOException {
 
         //New interface created of size 800x800, with program to stop when window is closed
-        JFrame frame = new JFrame();
+        frame = new JFrame();
 		frame.setLayout(new BorderLayout());
 		frame.setSize(800, 800);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -36,7 +36,7 @@ public class Communication implements ActionListener{
         //New TextArea created in center of border
 		JTextArea message = new JTextArea();
 		frame.add(message, BorderLayout.CENTER);
-		c.sendMessage("hello");
+		c.sendMessage("Hello");
 		frame.setVisible(true);
 	}
 
@@ -51,12 +51,13 @@ public class Communication implements ActionListener{
      */
     public void actionPerformed (ActionEvent e){
         try {
-			c.sendMessage(send.getText());
+			if(send.getText() != null) {
+				frame.setTitle("Sending");
+	        	c.sendMessage(send.getText());
+			}
 		} catch (FileNotFoundException | InterruptedException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
     }

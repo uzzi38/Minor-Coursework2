@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Scanner;
-import java.util.StringTokenizer;
 
 import javax.swing.JLabel;
 import javax.swing.JSlider;
@@ -22,8 +20,7 @@ public class Camera {
     //Import of ASCII csv file
 	private final File asciiTable = new File("ascii_table.csv");
     //New HashMap created
-	private String[] hex = new String[256];
-	private String[] symbol = new String[257];
+	private HashMap<String, String> symbolToHex = new HashMap<>();
     //Holds value of string in hex
 	private ArrayList<String> chars;
     //The String that will be entered split up
@@ -76,58 +73,37 @@ public class Camera {
 	 * @throws IOException 
 	 */
 	private ArrayList<String> hexConvert(String str) throws IOException{
-        csvScanner2();
-		//ArrayList<String> out = new ArrayList<>();
-        //for (int i = 0; i < str.length(); i++){
-            //String split into individual characters
-        //	input.add(str.charAt(i));
-       // }
-        //for (int i = 0; i< input.size(); i++){
-        //	String scanned = symbolToHex.get(input.get(i).toString());
-        //	out.add(scanned);
-        //	System.out.println(symbolToHex.get("r"));
+        csvScanner();
+		ArrayList<String> out = new ArrayList<>();
+        for (int i = 0; i < str.length(); i++){		//String split into individual characters
+        	input.add(str.charAt(i));
+        }
+        //for (int i = 0; i < input.size(); i++){
+        	//System.out.println(input.get(i));
         //}
+        for (int i = 0; i< input.size(); i++){
+        	if(symbolToHex.containsKey(input.get(i).toString())){
+        		out.add(symbolToHex.get(input.get(i).toString()));
+        		System.out.println(out.get(i));
+        	}
+        	else {out.add("?");}
+        }
         //Iterate input and correlate to characters in charLookup
-        return new ArrayList<String>();
+        return out;
     }
 	/**
 	 * Scans the ASCII Table csv file
 	 * @throws FileNotFoundException If the file is not present, it throws this exception.
 	 */
-	private void csvScanner() throws FileNotFoundException{
-        Scanner tableScanner = new Scanner(asciiTable);
-		tableScanner.useDelimiter(",");
-		int i = 0;
-        while (tableScanner.hasNext()){
-        	String hex = null,symbol = null;
-        	if(tableScanner.hasNext()){tableScanner.next();} 
-        	if(tableScanner.hasNext() && i != 0){tableScanner.next(); i++;} 
-        	if(tableScanner.hasNext()){tableScanner.next();} 
-        	if(tableScanner.hasNext()){hex = tableScanner.next(); System.out.println(hex);} 
-        	if(tableScanner.hasNext()){tableScanner.next();} 
-        	if(tableScanner.hasNext()){symbol = tableScanner.next();}
-        	if(tableScanner.hasNext()){tableScanner.next();} 
-        	if(tableScanner.hasNext() && i != 0){tableScanner.next(); i++;} 
-        	if(symbol != null && hex != null){
-        		//symbolToHex.put(hex, symbol);
-        	}
-        	
-        }
-        tableScanner.close();
-    }
-	private void csvScanner2 () throws IOException, FileNotFoundException{
+	private void csvScanner () throws IOException, FileNotFoundException{
 		BufferedReader csvScanner = new BufferedReader(new FileReader(asciiTable));
 		String line;
-		int i = 0;
 		final String DELIMTER = ",";
 		csvScanner.readLine();
 		while ((line = csvScanner.readLine()) != null){		//while there is a next line. At the same time, reads the next line
 			String[] tokens = line.split(DELIMTER);
-			hex[i] = tokens[2];
-			symbol[i] = tokens[4];
-			i++;
+			symbolToHex.put(tokens[4], tokens[2]);
 		}
-		
 		csvScanner.close();
 	}
 	
@@ -144,8 +120,8 @@ public class Camera {
 			String s = chars.get(i);
 			for (int j = 0; j < 3; j++){
 
-				Character c = new Character(s.charAt(j));
-				slider.setValue(map.get(c).intValue());
+				//Character c = new Character(s.charAt(j));
+				//slider.setValue(map.get(c).intValue());
 				Thread.sleep(500);
 			}
 		}
