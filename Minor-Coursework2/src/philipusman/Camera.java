@@ -11,7 +11,11 @@ import java.util.Hashtable;
 
 import javax.swing.JLabel;
 import javax.swing.JSlider;
-
+/**
+ * This class represents the Camera on the Martian Rover
+ * @author Usman Liaqat and Philip To
+ *
+ */
 public class Camera {
     //New JSlider created
 	private JSlider slider;
@@ -27,7 +31,10 @@ public class Camera {
 	private ArrayList<Character> input = new ArrayList<>();
 	private String[] asciiHex = new String[256];
 	private ArrayList<String> out = new ArrayList<>();
-
+	/**
+	 * This is the constructor for the Camera
+	 * The slider and map used later are both initialised here.
+	 */
 	public Camera () {
 
         //New labels for slider from 1 to 10
@@ -67,8 +74,9 @@ public class Camera {
 	}
 	
 	/**
-	 * Hex Converter
-	 * @return Returns the Array
+	 * Hex Converter - Converts the inputed string into an ArrayList
+	 * of hex values
+	 * @return Returns the ArrayList
 	 * @throws FileNotFoundException 
 	 * @throws IOException 
 	 */
@@ -81,15 +89,16 @@ public class Camera {
         	//System.out.println(input.get(i));
         //}
         for (int i = 0; i< input.size(); i++){
-        	if(symbolToHex.containsKey(input.get(i).toString())){
-        		out.add(symbolToHex.get(input.get(i).toString()));
+        	if(symbolToHex.containsKey(input.get(i).toString())){	//if the character is present in the list
+        		out.add(symbolToHex.get(input.get(i).toString())); 	//the hex for that character is added to a new list
         	}
         	else {out.add("?");}
         }
-        return out;
+        return out;		//The new list gets returned
     }
 	/**
-	 * Scans the ASCII Table csv file
+	 * Scans the ASCII Table csv file and stores a local copy of
+	 * the symbols and their hex values
 	 * @throws FileNotFoundException If the file is not present, it throws this exception.
 	 */
 	private void csvScanner () throws IOException, FileNotFoundException{
@@ -98,11 +107,15 @@ public class Camera {
 		final String DELIMTER = ",";
 		csvScanner.readLine();
 		while ((line = csvScanner.readLine()) != null){		//while there is a next line. At the same time, reads the next line
-			String[] tokens = line.split(DELIMTER);
-			symbolToHex.put(tokens[4], tokens[2]);
+			String[] tokens = line.split(DELIMTER);		//Splits the line of tokens and stores it into an array
+			symbolToHex.put(tokens[4], tokens[2]);		//Maps the hex and the symbol to each other
 		}
 		csvScanner.close();
 	}
+	/**
+	 * Returns the map used in this class
+	 * @return
+	 */
 	public HashMap<Character,Integer> returnMap (){
 		return map;
 	}
