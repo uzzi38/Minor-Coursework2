@@ -62,9 +62,7 @@ public class Communication extends JFrame{
 				new Thread(){
 					public void run (){
 						try {
-							for(int k = 0; k < values.size(); k++){	
-								co.pointTowards(values.get(k));
-							}
+							co.pointTowards(values);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
@@ -84,8 +82,10 @@ public class Communication extends JFrame{
     	}
     	return values;
     }
-    private void pointTowards(int i) throws InterruptedException{
-    	slider.setValue(i);
-    	Thread.sleep(1000);
+    private void pointTowards(ArrayList<Character> in) throws InterruptedException{
+    	for (int i = 0; i < in.size(); i++){
+        	slider.setValue(in.get(i));
+	    	Thread.sleep(1000);
+    	}
     }
 }

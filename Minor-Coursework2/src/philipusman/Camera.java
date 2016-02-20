@@ -48,7 +48,6 @@ public class Camera {
 		slider = new JSlider(0,15);
 		slider.setMajorTickSpacing(1);
 		slider.setPaintTicks(true);
-		slider.setSnapToTicks(true);
 		slider.setPaintLabels(true);
 		slider.setValue(0);
 		slider.setLabelTable(labels);
@@ -70,9 +69,10 @@ public class Camera {
 	/**
 	 * Hex Converter
 	 * @return Returns the Array
+	 * @throws FileNotFoundException 
 	 * @throws IOException 
 	 */
-	public ArrayList<String> hexConvert(String str) throws IOException{
+	public ArrayList<String> hexConvert(String str) throws FileNotFoundException, IOException{
         csvScanner();
         for (int i = 0; i < str.length(); i++){		//String split into individual characters
         	input.add(str.charAt(i));
