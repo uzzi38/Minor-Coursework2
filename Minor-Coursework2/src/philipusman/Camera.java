@@ -26,7 +26,7 @@ public class Camera {
     //The String that will be entered split up
 	private ArrayList<Character> input = new ArrayList<Character>();
 	private String[] asciiHex = new String[256];
-
+	private ArrayList<String> out = new ArrayList<>();
 
 	public Camera () {
 
@@ -72,9 +72,8 @@ public class Camera {
 	 * @return Returns the Array
 	 * @throws IOException 
 	 */
-	private ArrayList<String> hexConvert(String str) throws IOException{
+	public ArrayList<String> hexConvert(String str) throws IOException{
         csvScanner();
-		ArrayList<String> out = new ArrayList<>();
         for (int i = 0; i < str.length(); i++){		//String split into individual characters
         	input.add(str.charAt(i));
         }
@@ -84,11 +83,9 @@ public class Camera {
         for (int i = 0; i< input.size(); i++){
         	if(symbolToHex.containsKey(input.get(i).toString())){
         		out.add(symbolToHex.get(input.get(i).toString()));
-        		System.out.println(out.get(i));
         	}
         	else {out.add("?");}
         }
-        //Iterate input and correlate to characters in charLookup
         return out;
     }
 	/**
@@ -106,24 +103,7 @@ public class Camera {
 		}
 		csvScanner.close();
 	}
-	
-	/**
-	 *
-	 * @param in
-	 * @throws InterruptedException Stops the program for 500 ms, 'Thread.sleep(500)'
-	 * @throws IOException 
-     */
-	
-	public void sendMessage(String in) throws InterruptedException, IOException{
-		chars = hexConvert(in);
-		for (int i = 0; i < chars.size(); i++){
-			String s = chars.get(i);
-			for (int j = 0; j < 3; j++){
-
-				//Character c = new Character(s.charAt(j));
-				//slider.setValue(map.get(c).intValue());
-				Thread.sleep(500);
-			}
-		}
+	public HashMap<Character,Integer> returnMap (){
+		return map;
 	}
 }

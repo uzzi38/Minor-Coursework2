@@ -5,61 +5,67 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JSlider;
 import javax.swing.JTextArea;
 
-public class Communication implements ActionListener{
+public class Communication extends JFrame{
 
-    private static JButton send;
+    private JButton send;
     private static Camera c;
-    private static JFrame frame;
 	public static void main(String[] args) throws InterruptedException, IOException {
-
-        //New interface created of size 800x800, with program to stop when window is closed
-        frame = new JFrame();
-		frame.setLayout(new BorderLayout());
-		frame.setSize(800, 800);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		//New slider created and placed on north of border
 		c = new Camera();
-		JSlider slider = c.returnSlider();
-		frame.add(slider, BorderLayout.NORTH);
-
-        //New JButton created on south of border
-		send = new JButton("Send");
-		frame.add(send, BorderLayout.SOUTH);
-
-        //New TextArea created in center of border
-		JTextArea message = new JTextArea();
-		frame.add(message, BorderLayout.CENTER);
-		c.sendMessage("Hello");
-		frame.setVisible(true);
+		Communication co = new Communication(c);
 	}
 
     //Action Listener class implementation so that send button can perform event
-    public Communication(){
-        send.addActionListener(this);
-    }
+    public Communication(Camera c){
+		super("Communication");
+    	setLayout(new BorderLayout());
+		setSize(800, 800);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		//New slider created and placed on north of border
+		JSlider slider = c.returnSlider();
+		add(slider, BorderLayout.NORTH);
 
-	/**
-	 *
-	 * @param e
-     */
-    public void actionPerformed (ActionEvent e){
-        try {
-			if(send.getText() != null) {
-				frame.setTitle("Sending");
-	        	c.sendMessage(send.getText());
+		//New TextArea created in center of border
+		JTextArea message = new JTextArea();
+		add(message, BorderLayout.CENTER);
+		setVisible(true);
+		
+		//New JButton created on south of border
+		send = new JButton("Send");
+		add(send, BorderLayout.SOUTH);
+    	send.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				HashMap<Character,Integer> map= c.returnMap();
+				ArrayList<String> out = new ArrayList<>();
+				try {
+					out = c.hexConvert(message.getText());
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				for (int i = 0; i < out.size(); i++){
+					String s = out.get(i);
+					System.out.println(s);
+					for (int j = 0; j < s.length(); j++){
+						Character c = new Character(s.charAt(j));
+						slider.setValue(map.get(c).intValue());
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e1) {
+							e1.printStackTrace();
+						}
+					}
+				}
 			}
-		} catch (FileNotFoundException | InterruptedException e1) {
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+		});
     }
-
 }
